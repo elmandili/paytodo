@@ -1,0 +1,28 @@
+PayToDo
+What needs to work well:
+	- Login & Register Sys
+	- Todo List:
+		add task
+		delete 
+		update
+		mark as complete
+		assign coins to task
+		set deadline to task:
+			burn coins if not complete
+			refund if completed
+	- Buy Tokens:
+		payment gat way
+		assign tokens when payment successful
+
+Frontend:
+	- Login 
+	- Register 
+	- Todo List Management 
+	- Buy Coins 
+Backend: 
+	- DB connection
+	- create delete update users
+	- create delete update task
+	- buy tokens
+	- add remove tokens
+
