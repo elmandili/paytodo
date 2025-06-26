@@ -4,6 +4,7 @@ const port = 3000
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import ejs from 'ejs'
+import userRoute from "./routes/userRoutes.js";
     
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -16,6 +17,8 @@ let users = ['user1', 'user2', 'user3']
 app.get('/', (req, res) => {
     res.render('index', {users: users})
 })
+
+app.use('/user', userRoute)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

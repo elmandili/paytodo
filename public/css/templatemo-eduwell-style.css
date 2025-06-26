@@ -1102,6 +1102,8 @@ section.contact-us {
   position: relative;
 }
 
+
+
 section.contact-us:after {
   position: absolute;
   content: '';
@@ -1155,8 +1157,11 @@ section.contact-us .section-heading {
 }
 
 section.contact-us #contact {
-  margin-left: -100px;
-  position: relative;
+  /* margin-left: -100px; */
+
+  /* position: relative; */
+  align-self: center;
+  margin: auto;
   z-index: 5;
   background-color: #fff;
   margin-top: 40px;

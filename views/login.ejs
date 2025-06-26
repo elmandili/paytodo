@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/head.ejs') %>
+    <link rel="stylesheet" href="/css/form.css">
+<body>
+    <%- include('partials/navbar.ejs') %>
+    <div class="login-wrapper">
+        <form class="login-form" action="action_page.php" method="post">
+            
+            <h2 class="login-title">Sign In</h2>
+            <div class="input-group">
+                <!-- <label for="uname">Email</label> -->
+                <input type="text" placeholder="Email" name="othername" required>
+            </div>
+            <div class="input-group">
+                <!-- <label for="psw">Password</label> -->
+                <input type="password" placeholder="Enter Password" name="psw" required>
+            </div>
+            <button type="submit">Login</button>
+            <div class="login-options">
+                <label>
+                    <!-- <input type="checkbox" checked="checked" name="remember"> Remember me -->
+                </label>
+                <span class="psw"><a href="#">Forgot password?</a> <a href="/user/signup">create account</a></span>
+                
+            </div>
+            
+        </form>
+    </div>
+</body>
+
+<style>
+
+</style>
+</html>
