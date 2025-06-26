@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/head.ejs') %>
+    <link rel="stylesheet" href="/css/form.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+<body>
+    <%- include('partials/navbar.ejs') %>
+    <div class="todo-bg-gradient"></div>
+    <div class="todo-container glass">
+      <div id="myDIV" class="header">
+        <h2 style="margin:5px">My To Do List</h2>
+        <div class="input-row">
+          <input type="text" id="myInput" placeholder="What needs to be done?">
+          <input type="text" class="pay-input" placeholder="bet">
+          <button onclick="newElement()" class="addBtn" aria-label="Add">
+            <span class="plus-icon">+</span>
+          </button>
+        </div>
+      </div>
+      <ul id="myUL">
+        <li>Hit the gym</li>
+        <li class="checked">Pay bills</li>
+        <li>Meet George</li>
+        <li>Buy eggs</li>
+        <li>Read a book</li>
+        <li>Organize office</li>
+      </ul>
+      <div id="emptyState" class="empty-state" style="display:none;">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="40" fill="#f3e8ff"/>
+          <rect x="22" y="36" width="36" height="8" rx="4" fill="#c4b5fd"/>
+          <rect x="28" y="48" width="24" height="8" rx="4" fill="#ddd6fe"/>
+        </svg>
+        <p>Your to-do list is empty! Add a task above.</p>
+      </div>
+    </div>
+<script>
+// Create a "close" button and a check button and append them to each list item
+var myNodelist = document.querySelectorAll("#myUL > li");
+var i;
+for (i = 0; i < myNodelist.length; i++) {
+  // Check button
+  var checkBtn = document.createElement("SPAN");
+  checkBtn.className = "check-btn";
+  checkBtn.innerHTML = '<svg width="36" height="36" viewBox="0 0 36 36"><circle class="check-circle" cx="18" cy="18" r="16" fill="#fff"/><polyline points="10,20 17,27 28,12" stroke="#22c55e" stroke-width="5" fill="none" class="checkmark-path" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  myNodelist[i].insertBefore(checkBtn, myNodelist[i].firstChild);
+  // Close button
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+  span.className = "close";
+  span.appendChild(txt);
+  myNodelist[i].appendChild(span);
+}
+// Close button click
+var close = document.getElementsByClassName("close");
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function() {
+    var div = this.parentElement;
+    div.style.display = "none";
+    updateEmptyState();
+  }
+}
+// Check button click
+function attachTaskListeners(li) {
+  var checkBtn = li.querySelector('.check-btn');
+  var closeBtn = li.querySelector('.close');
+  if (checkBtn) {
+    checkBtn.onclick = function(e) {
+      e.stopPropagation();
+      li.classList.toggle('checked');
+      li.classList.add('pop');
+      setTimeout(function(){ li.classList.remove('pop'); }, 300);
+    }
+  }
+  if (closeBtn) {
+    closeBtn.onclick = function() {
+      li.style.display = "none";
+      updateEmptyState();
+    }
+  }
+}
+// Attach listeners only to #myUL > li
+var myTaskList = document.querySelectorAll('#myUL > li');
+for (i = 0; i < myTaskList.length; i++) {
+  attachTaskListeners(myTaskList[i]);
+}
+// List item click (optional: also toggle checked)
+var list = document.querySelector('ul');
+list.addEventListener('click', function(ev) {
+  if (ev.target.tagName === 'LI') {
+    ev.target.classList.toggle('checked');
+    ev.target.classList.add('pop');
+    setTimeout(function(){ ev.target.classList.remove('pop'); }, 300);
+  }
+}, false);
+// Create a new list item when clicking on the "Add" button
+function newElement() {
+  var li = document.createElement("li");
+  var inputValue = document.getElementById("myInput").value;
+  var t = document.createTextNode(inputValue);
+  // Check button
+  var checkBtn = document.createElement("SPAN");
+  checkBtn.className = "check-btn";
+  checkBtn.innerHTML = '<svg width="36" height="36" viewBox="0 0 36 36"><circle class="check-circle" cx="18" cy="18" r="16" fill="#fff"/><polyline points="10,20 17,27 28,12" stroke="#22c55e" stroke-width="5" fill="none" class="checkmark-path" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  li.appendChild(checkBtn);
+  li.appendChild(t);
+  if (inputValue === '') {
+    document.getElementById("myInput").classList.add('input-error');
+    setTimeout(function(){
+      document.getElementById("myInput").classList.remove('input-error');
+    }, 600);
+    return;
+  } else {
+    document.getElementById("myUL").appendChild(li);
+  }
+  document.getElementById("myInput").value = "";
+  // Close button
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+  span.className = "close";
+  span.appendChild(txt);
+  li.appendChild(span);
+  // Attach listeners only to this new li
+  attachTaskListeners(li);
+  updateEmptyState();
+}
+// Initial empty state check
+updateEmptyState();
+// Animate check
+var list = document.querySelector('ul');
+list.addEventListener('click', function(ev) {
+  if (ev.target.tagName === 'LI') {
+    ev.target.classList.toggle('checked');
+    ev.target.classList.add('pop');
+    setTimeout(function(){ ev.target.classList.remove('pop'); }, 300);
+  }
+}, false);
+</script>
+<style>
+body {
+  margin: 0;
+  min-width: 250px;
+  font-family: 'Roboto', Arial, sans-serif;
+  background: none;
+}
+.todo-bg-gradient {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: -2;
+  background: linear-gradient(135deg, #f3e8ff 0%, #c7d2fe 100%);
+}
+.glass {
+  background: rgba(255,255,255,0.7);
+  box-shadow: 0 8px 32px rgba(60,72,88,0.18);
+  border-radius: 24px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(200,200,255,0.18);
+}
+.todo-container {
+  max-width: 720px;
+  margin: 70px auto 0 auto;
+  padding: 64px 56px 48px 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+}
+.header {
+  background: none;
+  color: #3b3663;
+  padding: 0 0 18px 0;
+  text-align: center;
+  border-radius: 0;
+  box-shadow: none;
+}
+.header h2 {
+  margin: 0 0 10px 0;
+  font-weight: 700;
+  font-size: 2.1rem;
+  letter-spacing: 1px;
+  color: #6c63ff;
+}
+.input-row {
+  display: flex;
+  gap: 0;
+  margin-top: 10px;
+}
+#myInput {
+  border: none;
+  border-radius: 10px 0 0 10px;
+  width: 40%;
+  padding: 14px 16px;
+  font-size: 17px;
+  outline: none;
+  background: #f3f0ff;
+  transition: box-shadow 0.2s, border 0.2s;
+  box-shadow: 0 1px 4px rgba(60,72,88,0.06);
+  color: #3b3663;
+}
+#myInput:focus {
+  box-shadow: 0 2px 8px #c7d2fe;
+  background: #fff;
+}
+#myInput.input-error {
+  box-shadow: 0 0 0 2px #f44336;
+  background: #fff0f0;
+}
+
+.pay-input {
+    display: flex;
+    border: none;
+    border-left: solid 1px #3b3663;
+    border-radius: 0;
+    width: 20%;
+    padding: 14px 16px;
+    font-size: 17px;
+    outline: none;
+    background: #f3f0ff;
+    transition: box-shadow 0.2s, border 0.2s;
+    box-shadow: 0 1px 4px rgba(60,72,88,0.06);
+    color: #3b3663;
+}
+.addBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 10%;
+  background: linear-gradient(135deg, #a5b4fc 0%, #6c63ff 100%);
+  color: #fff;
+  border: none;
+  border-radius: 0 10px 10px 0;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 2px 8px rgba(108,99,255,0.10);
+  min-width: 54px;
+  min-height: 48px;
+}
+.addBtn:active {
+  transform: scale(0.96);
+}
+.addBtn:hover {
+  background: linear-gradient(135deg, #6c63ff 0%, #a5b4fc 100%);
+}
+.plus-icon {
+  font-size: 2rem;
+  line-height: 1;
+  display: block;
+  margin-top: -2px;
+}
+.todo-container ul {
+  margin: 28px 0 0 0;
+  padding: 0;
+  list-style: none;
+  min-height: 32px;
+}
+.todo-container ul li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 32px 0 0;
+  margin-bottom: 22px;
+  min-height: 72px;
+  background: #f3f0ff;
+  font-size: 1.35rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(60,72,88,0.08);
+  transition: background 0.2s, box-shadow 0.2s, color 0.2s, transform 0.3s;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #3b3663;
+  opacity: 1;
+}
+.todo-container ul li:nth-child(odd) {
+  background: #ede9fe;
+}
+.todo-container ul li:hover {
+  background: #e0e7ff;
+  box-shadow: 0 4px 16px rgba(108,99,255,0.10);
+}
+.todo-container ul li.checked {
+  background: linear-gradient(90deg, #a5b4fc 0%, #6c63ff 100%);
+  color: #fff;
+  text-decoration: line-through;
+}
+.todo-container ul li.pop {
+  animation: pop 0.3s;
+}
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+.todo-container ul li.fade-out {
+  /* animation: fadeOut 0.35s forwards;
+}
+@keyframes fadeOut {
+  /* to { opacity: 0; transform: translateX(20px) scale(0.97); } */
+}
+ul li .check-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  max-width: 36px;
+  max-height: 36px;
+  margin-right: 12px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  transition: background 0.2s, border 0.2s;
+  box-shadow: none;
+  border: none;
+  box-sizing: border-box;
+}
+ul li .check-btn:hover {
+  background: #f3f3fa;
+}
+ul li .check-btn .checkmark-path {
+  display: none;
+}
+ul li.checked .check-btn .checkmark-path {
+  display: block;
+}
+ul li.checked .check-btn .check-circle {
+  display: block;
+}
+ul li .close {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  max-width: 36px;
+  max-height: 36px;
+  font-size: 20px;
+  color: #bdbdbd;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  background: none;
+  border: none;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+ul li .close:hover {
+  background-color: #f44336;
+  color: white;
+  /* transform: scale(1.08); */
+}
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 32px;
+  color: #a5b4fc;
+  font-size: 1.1rem;
+  opacity: 0.85;
+  animation: fadeIn 0.7s;
+}
+.empty-state svg {
+  margin-bottom: 12px;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 0.85; transform: none; }
+}
+@media (max-width: 600px) {
+  .todo-container {
+    max-width: 99vw;
+    padding: 18px 2vw 14px 2vw;
+  }
+  #myInput, .addBtn {
+    font-size: 16px;
+    padding: 12px 6px;
+  }
+  ul li {
+    font-size: 16px;
+    padding-left: 38px;
+  }
+}
+</style>
+</body>
+</html>

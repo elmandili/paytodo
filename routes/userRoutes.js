@@ -8,4 +8,7 @@ userRoute.get('/login', (req, res) => {
 userRoute.get('/signup', (req, res) => {
     res.render('signup');
 })
+userRoute.get('/todolist', (req, res) => {
+    res.render('todolist');
+})
 export default userRoute
